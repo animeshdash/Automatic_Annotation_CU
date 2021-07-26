@@ -46,13 +46,19 @@ namespace Automatic_Annotation_CU.Forms
             this.tabSceneObject = new System.Windows.Forms.TabControl();
             this.tbpSceneLevel = new System.Windows.Forms.TabPage();
             this.tbpObectLevel = new System.Windows.Forms.TabPage();
+            this.tbpImageList = new System.Windows.Forms.TabPage();
             this.pnlRight = new System.Windows.Forms.Panel();
             this.lstvObjectCategory = new System.Windows.Forms.ListView();
             this.pnlAnnotationMain = new System.Windows.Forms.Panel();
-            this.pnlPlayerNSettings = new System.Windows.Forms.Panel();
-            this.tbpImageList = new System.Windows.Forms.TabPage();
-            this.imgListImage = new System.Windows.Forms.ImageList(this.components);
+            this.lblMouseY = new System.Windows.Forms.Label();
+            this.lblMouseX = new System.Windows.Forms.Label();
             this.pictureBoxAnnotation = new System.Windows.Forms.PictureBox();
+            this.pnlPlayerNSettings = new System.Windows.Forms.Panel();
+            this.btnNext = new System.Windows.Forms.Button();
+            this.btnPrevious = new System.Windows.Forms.Button();
+            this.imgListImage = new System.Windows.Forms.ImageList(this.components);
+            this.FBD = new System.Windows.Forms.FolderBrowserDialog();
+            this.SFD = new System.Windows.Forms.SaveFileDialog();
             this.pnlSubHeader.SuspendLayout();
             this.tbcObjectSettings.SuspendLayout();
             this.pnlObjectProperties.SuspendLayout();
@@ -62,6 +68,7 @@ namespace Automatic_Annotation_CU.Forms
             this.pnlRight.SuspendLayout();
             this.pnlAnnotationMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAnnotation)).BeginInit();
+            this.pnlPlayerNSettings.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlSubHeader
@@ -223,6 +230,15 @@ namespace Automatic_Annotation_CU.Forms
             this.tbpObectLevel.ToolTipText = "Object Level";
             this.tbpObectLevel.UseVisualStyleBackColor = true;
             // 
+            // tbpImageList
+            // 
+            this.tbpImageList.Location = new System.Drawing.Point(4, 4);
+            this.tbpImageList.Name = "tbpImageList";
+            this.tbpImageList.Size = new System.Drawing.Size(192, 382);
+            this.tbpImageList.TabIndex = 2;
+            this.tbpImageList.Text = "Image List";
+            this.tbpImageList.UseVisualStyleBackColor = true;
+            // 
             // pnlRight
             // 
             this.pnlRight.Controls.Add(this.lstvObjectCategory);
@@ -243,6 +259,8 @@ namespace Automatic_Annotation_CU.Forms
             // 
             // pnlAnnotationMain
             // 
+            this.pnlAnnotationMain.Controls.Add(this.lblMouseY);
+            this.pnlAnnotationMain.Controls.Add(this.lblMouseX);
             this.pnlAnnotationMain.Controls.Add(this.pictureBoxAnnotation);
             this.pnlAnnotationMain.Controls.Add(this.pnlPlayerNSettings);
             this.pnlAnnotationMain.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -251,38 +269,77 @@ namespace Automatic_Annotation_CU.Forms
             this.pnlAnnotationMain.Size = new System.Drawing.Size(468, 445);
             this.pnlAnnotationMain.TabIndex = 7;
             // 
+            // lblMouseY
+            // 
+            this.lblMouseY.AutoSize = true;
+            this.lblMouseY.Location = new System.Drawing.Point(87, 356);
+            this.lblMouseY.Name = "lblMouseY";
+            this.lblMouseY.Size = new System.Drawing.Size(0, 15);
+            this.lblMouseY.TabIndex = 9;
+            // 
+            // lblMouseX
+            // 
+            this.lblMouseX.AutoSize = true;
+            this.lblMouseX.Location = new System.Drawing.Point(43, 356);
+            this.lblMouseX.Name = "lblMouseX";
+            this.lblMouseX.Size = new System.Drawing.Size(0, 15);
+            this.lblMouseX.TabIndex = 8;
+            // 
+            // pictureBoxAnnotation
+            // 
+            this.pictureBoxAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            | System.Windows.Forms.AnchorStyles.Left)
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxAnnotation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pictureBoxAnnotation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pictureBoxAnnotation.Location = new System.Drawing.Point(15, 74);
+            this.pictureBoxAnnotation.Name = "pictureBoxAnnotation";
+            this.pictureBoxAnnotation.Size = new System.Drawing.Size(711, 479);
+            this.pictureBoxAnnotation.TabIndex = 1;
+            this.pictureBoxAnnotation.TabStop = false;
+            this.pictureBoxAnnotation.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxAnnotation_Paint);
+            this.pictureBoxAnnotation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAnnotation_MouseDown);
+            this.pictureBoxAnnotation.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAnnotation_MouseMove);
+            this.pictureBoxAnnotation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAnnotation_MouseUp);
+            this.pictureBoxAnnotation.Resize += new System.EventHandler(this.pictureBoxAnnotation_Resize);
+            // 
             // pnlPlayerNSettings
             // 
+            this.pnlPlayerNSettings.Controls.Add(this.btnNext);
+            this.pnlPlayerNSettings.Controls.Add(this.btnPrevious);
             this.pnlPlayerNSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlPlayerNSettings.Location = new System.Drawing.Point(0, 393);
             this.pnlPlayerNSettings.Name = "pnlPlayerNSettings";
             this.pnlPlayerNSettings.Size = new System.Drawing.Size(468, 52);
             this.pnlPlayerNSettings.TabIndex = 0;
             // 
-            // tbpImageList
+            // btnNext
             // 
-            this.tbpImageList.Location = new System.Drawing.Point(4, 4);
-            this.tbpImageList.Name = "tbpImageList";
-            this.tbpImageList.Size = new System.Drawing.Size(192, 382);
-            this.tbpImageList.TabIndex = 2;
-            this.tbpImageList.Text = "Image List";
-            this.tbpImageList.UseVisualStyleBackColor = true;
+            this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnNext.Location = new System.Drawing.Point(172, 17);
+            this.btnNext.Name = "btnNext";
+            this.btnNext.Size = new System.Drawing.Size(75, 29);
+            this.btnNext.TabIndex = 5;
+            this.btnNext.Text = "Next";
+            this.btnNext.UseVisualStyleBackColor = true;
+            this.btnNext.Click += new System.EventHandler(this.btnNext_Click);
+            // 
+            // btnPrevious
+            // 
+            this.btnPrevious.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPrevious.Location = new System.Drawing.Point(12, 17);
+            this.btnPrevious.Name = "btnPrevious";
+            this.btnPrevious.Size = new System.Drawing.Size(75, 29);
+            this.btnPrevious.TabIndex = 6;
+            this.btnPrevious.Text = "Previous";
+            this.btnPrevious.UseVisualStyleBackColor = true;
+            this.btnPrevious.Click += new System.EventHandler(this.btnPrevious_Click);
             // 
             // imgListImage
             // 
             this.imgListImage.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
             this.imgListImage.ImageSize = new System.Drawing.Size(16, 16);
             this.imgListImage.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // pictureBoxAnnotation
-            // 
-            this.pictureBoxAnnotation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxAnnotation.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxAnnotation.Image")));
-            this.pictureBoxAnnotation.Location = new System.Drawing.Point(0, 0);
-            this.pictureBoxAnnotation.Name = "pictureBoxAnnotation";
-            this.pictureBoxAnnotation.Size = new System.Drawing.Size(468, 393);
-            this.pictureBoxAnnotation.TabIndex = 1;
-            this.pictureBoxAnnotation.TabStop = false;
             // 
             // ManualAnnotation
             // 
@@ -298,8 +355,7 @@ namespace Automatic_Annotation_CU.Forms
             this.Controls.Add(this.pnlSubHeader);
             this.Controls.Add(this.pnlRight);
             this.Name = "ManualAnnotation";
-            this.Text = "ManualAnnotation";
-            this.Load += new System.EventHandler(this.ManualAnnotation_Load);
+            this.Text = "Manual Annotation";
             this.pnlSubHeader.ResumeLayout(false);
             this.pnlSubHeader.PerformLayout();
             this.tbcObjectSettings.ResumeLayout(false);
@@ -310,7 +366,9 @@ namespace Automatic_Annotation_CU.Forms
             this.tabSceneObject.ResumeLayout(false);
             this.pnlRight.ResumeLayout(false);
             this.pnlAnnotationMain.ResumeLayout(false);
+            this.pnlAnnotationMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAnnotation)).EndInit();
+            this.pnlPlayerNSettings.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -340,5 +398,11 @@ namespace Automatic_Annotation_CU.Forms
         private System.Windows.Forms.TabPage tbpImageList;
         private System.Windows.Forms.PictureBox pictureBoxAnnotation;
         private System.Windows.Forms.ImageList imgListImage;
+        private System.Windows.Forms.Label lblMouseY;
+        private System.Windows.Forms.Label lblMouseX;
+        private System.Windows.Forms.FolderBrowserDialog FBD;
+        private System.Windows.Forms.SaveFileDialog SFD;
+        private System.Windows.Forms.Button btnNext;
+        private System.Windows.Forms.Button btnPrevious;
     }
 }

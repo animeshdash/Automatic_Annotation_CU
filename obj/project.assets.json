@@ -504,11 +504,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ADAS\\Code\\Automatic_Annotation_CU\\Automatic_Annotation_CU.csproj",
+      "projectUniqueName": "D:\\ADAS\\Code\\Annotation_ToolDemo\\Automatic_Annotation_CU\\Automatic_Annotation_CU.csproj",
       "projectName": "Automatic_Annotation_CU",
-      "projectPath": "D:\\ADAS\\Code\\Automatic_Annotation_CU\\Automatic_Annotation_CU.csproj",
+      "projectPath": "D:\\ADAS\\Code\\Annotation_ToolDemo\\Automatic_Annotation_CU\\Automatic_Annotation_CU.csproj",
       "packagesPath": "C:\\Users\\Animesh\\.nuget\\packages\\",
-      "outputPath": "D:\\ADAS\\Code\\Automatic_Annotation_CU\\obj\\",
+      "outputPath": "D:\\ADAS\\Code\\Annotation_ToolDemo\\Automatic_Annotation_CU\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
