@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace Automatic_Annotation_CU.Helpers
 {
@@ -29,6 +30,12 @@ namespace Automatic_Annotation_CU.Helpers
             }
             this[file].Add(rect);
         }
+
+        //public void Save(TextWriter tw)
+        //{
+        //    JsonSerializer xs = new JsonSerializer(typeof(AnnotationEntry[]), new JsonRequiredAttribute() { ElementName = "Entries" });
+        //    xs.Serialize(tw, this.Select(i => new AnnotationEntry() { File = i.Key, Rectangles = i.Value }).ToArray());
+        //}
 
         public void Save(TextWriter tw)
         {

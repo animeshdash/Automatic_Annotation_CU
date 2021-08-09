@@ -4,12 +4,15 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
+    <AnalysisLevel>5.0</AnalysisLevel>
+    <StartupObject>Automatic_Annotation_CU.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="CustomControls\AnnotationDrawControl.cs" />
     <Compile Remove="CustomControls\RotatingPictureBox.cs" />
     <Compile Remove="Helpers\DrawHelperBase.cs" />
+    <Compile Remove="Settings.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -54,11 +54,13 @@ namespace Automatic_Annotation_CU.Forms
             this.lblMouseX = new System.Windows.Forms.Label();
             this.pictureBoxAnnotation = new System.Windows.Forms.PictureBox();
             this.pnlPlayerNSettings = new System.Windows.Forms.Panel();
+            this.trackBarImages = new System.Windows.Forms.TrackBar();
             this.btnNext = new System.Windows.Forms.Button();
             this.btnPrevious = new System.Windows.Forms.Button();
             this.imgListImage = new System.Windows.Forms.ImageList(this.components);
             this.FBD = new System.Windows.Forms.FolderBrowserDialog();
             this.SFD = new System.Windows.Forms.SaveFileDialog();
+            this.timerTrackbar = new System.Windows.Forms.Timer(this.components);
             this.pnlSubHeader.SuspendLayout();
             this.tbcObjectSettings.SuspendLayout();
             this.pnlObjectProperties.SuspendLayout();
@@ -69,6 +71,7 @@ namespace Automatic_Annotation_CU.Forms
             this.pnlAnnotationMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAnnotation)).BeginInit();
             this.pnlPlayerNSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarImages)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlSubHeader
@@ -259,6 +262,7 @@ namespace Automatic_Annotation_CU.Forms
             // 
             // pnlAnnotationMain
             // 
+            this.pnlAnnotationMain.AutoSize = true;
             this.pnlAnnotationMain.Controls.Add(this.lblMouseY);
             this.pnlAnnotationMain.Controls.Add(this.lblMouseX);
             this.pnlAnnotationMain.Controls.Add(this.pictureBoxAnnotation);
@@ -276,6 +280,7 @@ namespace Automatic_Annotation_CU.Forms
             this.lblMouseY.Name = "lblMouseY";
             this.lblMouseY.Size = new System.Drawing.Size(0, 15);
             this.lblMouseY.TabIndex = 9;
+            this.lblMouseY.Visible = false;
             // 
             // lblMouseX
             // 
@@ -284,27 +289,30 @@ namespace Automatic_Annotation_CU.Forms
             this.lblMouseX.Name = "lblMouseX";
             this.lblMouseX.Size = new System.Drawing.Size(0, 15);
             this.lblMouseX.TabIndex = 8;
+            this.lblMouseX.Visible = false;
             // 
             // pictureBoxAnnotation
             // 
-            this.pictureBoxAnnotation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBoxAnnotation.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.pictureBoxAnnotation.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pictureBoxAnnotation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBoxAnnotation.Location = new System.Drawing.Point(15, 74);
+            this.pictureBoxAnnotation.Location = new System.Drawing.Point(0, 0);
             this.pictureBoxAnnotation.Name = "pictureBoxAnnotation";
-            this.pictureBoxAnnotation.Size = new System.Drawing.Size(711, 479);
+            this.pictureBoxAnnotation.Size = new System.Drawing.Size(468, 393);
+            this.pictureBoxAnnotation.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxAnnotation.TabIndex = 1;
             this.pictureBoxAnnotation.TabStop = false;
             this.pictureBoxAnnotation.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxAnnotation_Paint);
             this.pictureBoxAnnotation.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAnnotation_MouseDown);
+            this.pictureBoxAnnotation.MouseEnter += new System.EventHandler(this.pictureBoxAnnotation_MouseEnter);
             this.pictureBoxAnnotation.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAnnotation_MouseMove);
             this.pictureBoxAnnotation.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAnnotation_MouseUp);
+            this.pictureBoxAnnotation.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.pictureBoxAnnotation_PreviewKeyDown);
             this.pictureBoxAnnotation.Resize += new System.EventHandler(this.pictureBoxAnnotation_Resize);
             // 
             // pnlPlayerNSettings
             // 
+            this.pnlPlayerNSettings.Controls.Add(this.trackBarImages);
             this.pnlPlayerNSettings.Controls.Add(this.btnNext);
             this.pnlPlayerNSettings.Controls.Add(this.btnPrevious);
             this.pnlPlayerNSettings.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -313,10 +321,19 @@ namespace Automatic_Annotation_CU.Forms
             this.pnlPlayerNSettings.Size = new System.Drawing.Size(468, 52);
             this.pnlPlayerNSettings.TabIndex = 0;
             // 
+            // trackBarImages
+            // 
+            this.trackBarImages.Dock = System.Windows.Forms.DockStyle.Right;
+            this.trackBarImages.Location = new System.Drawing.Point(261, 0);
+            this.trackBarImages.Name = "trackBarImages";
+            this.trackBarImages.Size = new System.Drawing.Size(207, 52);
+            this.trackBarImages.TabIndex = 7;
+            this.trackBarImages.ValueChanged += new System.EventHandler(this.trackBarImages_ValueChanged);
+            // 
             // btnNext
             // 
             this.btnNext.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNext.Location = new System.Drawing.Point(172, 17);
+            this.btnNext.Location = new System.Drawing.Point(133, 17);
             this.btnNext.Name = "btnNext";
             this.btnNext.Size = new System.Drawing.Size(75, 29);
             this.btnNext.TabIndex = 5;
@@ -356,6 +373,8 @@ namespace Automatic_Annotation_CU.Forms
             this.Controls.Add(this.pnlRight);
             this.Name = "ManualAnnotation";
             this.Text = "Manual Annotation";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ManualAnnotation_FormClosing);
             this.pnlSubHeader.ResumeLayout(false);
             this.pnlSubHeader.PerformLayout();
             this.tbcObjectSettings.ResumeLayout(false);
@@ -369,6 +388,8 @@ namespace Automatic_Annotation_CU.Forms
             this.pnlAnnotationMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAnnotation)).EndInit();
             this.pnlPlayerNSettings.ResumeLayout(false);
+            this.pnlPlayerNSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarImages)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -404,5 +425,7 @@ namespace Automatic_Annotation_CU.Forms
         private System.Windows.Forms.SaveFileDialog SFD;
         private System.Windows.Forms.Button btnNext;
         private System.Windows.Forms.Button btnPrevious;
+        private System.Windows.Forms.TrackBar trackBarImages;
+        private System.Windows.Forms.Timer timerTrackbar;
     }
 }

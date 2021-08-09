@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Entries xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <AnnotationEntry>
+    <File>000000001605218118638663.jpeg</File>
+    <Rectangles />
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218129248120.jpeg</File>
+    <Rectangles>
+      <BRectangle>
+        <X>504.062</X>
+        <Y>791.81396</Y>
+        <Width>535.81396</Width>
+        <Height>254.0155</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>1571.721</X>
+        <Y>569.5504</Y>
+        <Width>250.04651</Width>
+        <Height>182.57364</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>1047.814</X>
+        <Y>613.2093</Y>
+        <Width>226.23256</Width>
+        <Height>134.94574</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>1325.6434</X>
+        <Y>656.8682</Y>
+        <Width>91.28682</Width>
+        <Height>91.28682</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>1472.4961</X>
+        <Y>652.89923</Y>
+        <Width>91.28682</Width>
+        <Height>91.28682</Height>
+      </BRectangle>
+    </Rectangles>
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218139857577.jpeg</File>
+    <Rectangles>
+      <BRectangle>
+        <X>317.51938</X>
+        <Y>748.155</Y>
+        <Width>91.28682</Width>
+        <Height>91.28682</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>329.42636</X>
+        <Y>740.21704</Y>
+        <Width>246.07751</Width>
+        <Height>95.25581</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>1349.4574</X>
+        <Y>672.7442</Y>
+        <Width>190.51163</Width>
+        <Height>115.10078</Height>
+      </BRectangle>
+      <BRectangle>
+        <X>1651.1008</X>
+        <Y>577.48834</Y>
+        <Width>119.06977</Width>
+        <Height>107.16279</Height>
+      </BRectangle>
+    </Rectangles>
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218150467034.jpeg</File>
+    <Rectangles />
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218161076491.jpeg</File>
+    <Rectangles>
+      <BRectangle>
+        <X>218.29457</X>
+        <Y>629.08527</Y>
+        <Width>456.4341</Width>
+        <Height>162.72868</Height>
+      </BRectangle>
+    </Rectangles>
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218171685947.jpeg</File>
+    <Rectangles />
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218183259901.jpeg</File>
+    <Rectangles />
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218195798349.jpeg</File>
+    <Rectangles />
+  </AnnotationEntry>
+  <AnnotationEntry>
+    <File>000000001605218206407806.jpeg</File>
+    <Rectangles />
+  </AnnotationEntry>
+</Entries>

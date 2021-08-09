@@ -697,11 +697,11 @@ namespace Automatic_Annotation_CU.Forms
                 else
                 {
                     //set maximum size to zoom
-                    if (pcb_img.Width > 1260)
+                    if (pcb_img.Width > 1000)
                         return;
                 }
-                pcb_img.Width += Convert.ToInt32(pcb_img.Width * mea.Delta / 1260);
-                pcb_img.Height += Convert.ToInt32(pcb_img.Height * mea.Delta / 1260);
+                pcb_img.Width += Convert.ToInt32(pcb_img.Width * mea.Delta / 1000);
+                pcb_img.Height += Convert.ToInt32(pcb_img.Height * mea.Delta / 1000);
                 // Map the Form-centric mouse location to the PictureBox client coordinate system
                 //Point pictureBoxPoint = pcb_img.PointToClient(this.PointToScreen(mea.Location));
 

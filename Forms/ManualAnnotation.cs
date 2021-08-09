@@ -12,6 +12,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Automatic_Annotation_CU.Helpers;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
 
 namespace Automatic_Annotation_CU.Forms
 {
@@ -62,15 +63,26 @@ namespace Automatic_Annotation_CU.Forms
         private int _mouseX;
         private int _mouseY;
         private RectAction _currentAction;
-
+        private float m_dZoomscale = 1.0f;
+        private Matrix transform = new Matrix();
+        private int countFiles;
         #endregion Private Variables
+        public const float s_dScrollValue = 0.1f;
+
+        private int valueBefore = 0; // to track value of trackbar
 
         #region Constructor
         public ManualAnnotation()
         {
             _extentions = GetImageFileExtensions();
             InitializeComponent();
-            ImageFolder = "D:\\ADAS\\Code\\Automatic_Annotation_CU\\data\\Images_for_ADAS_annotation (1)";
+            ImageFolder = "D:\\ADAS\\Code\\Annotation_ToolDemo\\Automatic_Annotation_CU\\data\\Images_for_ADAS_annotation";
+            System.IO.DirectoryInfo dir = new System.IO.DirectoryInfo(ImageFolder);
+            countFiles = dir.GetFiles().Length;
+            trackBarImages.Maximum = countFiles;
+            trackBarImages.Minimum = 1;
+            trackBarImages.SmallChange = 1;
+            
             //if (Directory.Exists(Properties.Settings.Default.ImageFolder))
             //{
             //    ImageFolder = Properties.Settings.Default.ImageFolder;
@@ -82,7 +94,7 @@ namespace Automatic_Annotation_CU.Forms
             CurrentAction = RectAction.NoAction;
             //txt_folder.Text = FolderSelectDetaultTip;
             //lbl_folder_desc.Text = "";
-            //pcb_img.Anchor = AnchorStyles.Bottom |
+            //pictureBoxAnnotation.Anchor = AnchorStyles.Bottom |
             //    AnchorStyles.Left |
             //    AnchorStyles.Right |
             //    AnchorStyles.Top;
@@ -105,18 +117,14 @@ namespace Automatic_Annotation_CU.Forms
                     LoadAnnotations();
                     CurrenIndex = 0;
                 }
-                //Properties.Settings.Default.ImageFolder = _imageFolder;
+                Properties.Settings.Default.ImageFolder = _imageFolder;
                 //txtImageFolder.Text = _imageFolder;
             }
         }
 
         public int CurrenIndex
         {
-            get
-            {
-                return _currenIndex;
-            }
-
+            get{ return _currenIndex;}
             set
             {
                 if (value >= 0 && value != _currenIndex)
@@ -134,11 +142,7 @@ namespace Automatic_Annotation_CU.Forms
 
         public int MouseX
         {
-            get
-            {
-                return _mouseX;
-            }
-
+            get { return _mouseX; }
             set
             {
                 _mouseX = value;
@@ -148,11 +152,7 @@ namespace Automatic_Annotation_CU.Forms
 
         public int MouseY
         {
-            get
-            {
-                return _mouseY;
-            }
-
+            get {return _mouseY; }
             set
             {
                 _mouseY = value;
@@ -162,11 +162,7 @@ namespace Automatic_Annotation_CU.Forms
 
         public RectAction CurrentAction
         {
-            get
-            {
-                return _currentAction;
-            }
-
+            get { return _currentAction; }
             set
             {
                 _currentAction = value;
@@ -263,9 +259,11 @@ namespace Automatic_Annotation_CU.Forms
             if (_files != null && _files.Count > 0)
             {
                 string fullPath = System.IO.Path.Combine(ImageFolder, _files[index]);
+                
                 if (System.IO.File.Exists(fullPath))
                 {
                     _loadedImage = Image.FromFile(fullPath);
+
                     ShowLoadedImage();
                     pictureBoxAnnotation.Refresh();
                 }
@@ -345,17 +343,73 @@ namespace Automatic_Annotation_CU.Forms
             }
             pictureBoxAnnotation.Refresh();
         }
-
+        
         #endregion Save and Load
 
         #region Form Events
 
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void ManualAnnotation_FormClosing(object sender, FormClosingEventArgs e)
         {
             SaveAnnotations(Path.Combine(ImageFolder, "Annotations.xml"));
             Properties.Settings.Default.Save();
         }
 
+        private void pictureBoxAnnotation_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (_aRect != null && e.KeyCode == Keys.Delete)
+            {
+                DeleteActive();
+                //e. = true;
+            }
+            if (e.KeyCode == Keys.W)
+            {
+                btnNext.PerformClick();
+                //if (ValidImageIndex())
+                //{
+                //    if (!SaveBoundingBox())
+                //    {
+                //        MessageBox.Show("Fail to save, please annotate once more");
+                //        return;
+                //    }
+                //}
+                ////resetFlag();
+                //if (MoreImagesAfter())
+                //{
+                //    curImageIndex++;
+                //    DisplayNewImage();
+                //}
+                //else
+                //{
+                //    MessageBox.Show("all finished！");
+                //}
+            }
+            else if (e.KeyCode == Keys.Q)
+            {
+                btnPrevious.PerformClick();
+                //if (ValidImageIndex())
+                //{
+                //    if (!SaveBoundingBox())
+                //    {
+                //        MessageBox.Show("Fail to save, please annotate once more");
+                //        return;
+                //    }
+                //}
+                //resetFlag();
+                //if (MoreImagesBefore())
+                //{
+                //    curImageIndex--;
+                //    DisplayNewImage();
+                //}
+                //else
+                //{
+                //    MessageBox.Show("This is the very first image！");
+                //}
+            }
+        }
+        //private bool ValidImageIndex()
+        //{
+        //    //return _files.Count > 0 && _currenIndex >= 0 && _currenIndex < _files.Count;
+        //}
         private void btnBrowse_Click(object sender, EventArgs e)
         {
             if (FBD.ShowDialog() == DialogResult.OK)
@@ -403,11 +457,61 @@ namespace Automatic_Annotation_CU.Forms
         private void pictureBoxAnnotation_Resize(object sender, EventArgs e)
         {
             SaveImageRectangles(CurrenIndex);
-            ShowLoadedImage();
+            //ShowLoadedImage();
             LoadImageRectangles(CurrenIndex);
             pictureBoxAnnotation.Refresh();
         }
+        protected override void OnMouseWheel(MouseEventArgs mea)
+        {
+            pictureBoxAnnotation.Focus();
+            if (pictureBoxAnnotation.Focused == true && mea.Delta != 0)
+            {
+                if (mea.Delta <= 0)
+                {
+                    //set minimum size to zoom
+                    if (pictureBoxAnnotation.Width < 500)
+                        // lbl_Zoom.Text = pictureBox1.Image.Size; 
+                        return;
+                }
+                else
+                {
+                    //set maximum size to zoom
+                    if (pictureBoxAnnotation.Width > 1000)
+                        return;
+                }
+                pictureBoxAnnotation.Width += Convert.ToInt32(pictureBoxAnnotation.Width * mea.Delta / 1000);
+                pictureBoxAnnotation.Height += Convert.ToInt32(pictureBoxAnnotation.Height * mea.Delta / 1000);
 
+                // Map the Form-centric mouse location to the PictureBox client coordinate system
+                Point pictureBoxPoint = pictureBoxAnnotation.PointToClient(this.PointToScreen(mea.Location));
+
+                ZoomScroll(pictureBoxPoint, mea.Delta > 0);
+            }
+        }
+
+        private void ZoomScroll(Point location, bool zoomIn)
+        {
+            // Figure out what the new scale will be. Ensure the scale factor remains between
+            // 1% and 1000%
+            float newScale = Math.Min(Math.Max(m_dZoomscale + (zoomIn ? s_dScrollValue : -s_dScrollValue), 0.1f), 10);
+
+            if (newScale != m_dZoomscale)
+            {
+                float adjust = newScale / m_dZoomscale;
+                m_dZoomscale = newScale;
+
+                // Translate mouse point to origin
+                transform.Translate(-location.X, -location.Y, MatrixOrder.Append);
+
+                // Scale view
+                transform.Scale(adjust, adjust, MatrixOrder.Append);
+
+                // Translate origin back to original mouse point.
+                transform.Translate(location.X, location.Y, MatrixOrder.Append);
+
+                pictureBoxAnnotation.Refresh();
+            }
+        }
         private void tsExit_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -633,17 +737,15 @@ namespace Automatic_Annotation_CU.Forms
             }
         }
 
+        private void pictureBoxAnnotation_MouseEnter(object sender, EventArgs e)
+        {
+            pictureBoxAnnotation.Focus();
+           
+        }
         #endregion Mouse Editing
 
-        private void MainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (_aRect != null && e.KeyCode == Keys.Delete)
-            {
-                DeleteActive();
-                e.Handled = true;
-            }
-        }
-        
+
+
         private void pbSearch_Click(object sender, EventArgs e)
         {
 
@@ -742,5 +844,25 @@ namespace Automatic_Annotation_CU.Forms
                 return response;
             }
         }
+        private void timerTrackbar_Tick(object sender, EventArgs e)
+        {
+            //trackBarImages.Value = (int);
+        }
+
+        private void trackBarImages_ValueChanged(object sender, System.EventArgs e)
+        {
+            if (trackBarImages.Value < valueBefore) { 
+                btnPrevious.PerformClick();
+            }else{
+                btnNext.PerformClick();
+            }
+                valueBefore = trackBarImages.Value;
+         }
+
+        //private void trackBarImages_Scroll(object sender, EventArgs e)
+        //        {
+            
+        //            btnNext.PerformClick();
+        //        }
     }
 }
